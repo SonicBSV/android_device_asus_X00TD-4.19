@@ -1,0 +1,67 @@
+# ASUS X00TD / Snapdragon 636
+#
+# Correct topology:
+#   policy0 = cpu0-3 = LITTLE
+#   policy4 = cpu4-7 = BIG
+
+on late-init
+    wait /sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq 10
+    wait /sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq 10
+
+    # LITTLE: policy0 / cpu0-3
+    # SDM636 little max = 1612800
+    write /sys/devices/system/cpu/cpufreq/policy0/scaling_min_freq 633600
+    write /sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq 1612800
+
+    # BIG: policy4 / cpu4-7
+    # SDM636 big max = 1804800
+    write /sys/devices/system/cpu/cpufreq/policy4/scaling_min_freq 1113600
+    write /sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq 1804800
+
+on early-boot
+    # NOTE:
+    # event numbers can be fragile across kernels/builds.
+    # If possible, move these permissions to ueventd.rc later.
+    chown system system /dev/input/event4
+    chown system system /dev/input/event5
+    chown system system /dev/input/event6
+
+on boot
+    # stk3x1x proximity sensor permissions
+    chmod 0644 /sys/class/sensors/stk3x1x-proximity/sensors_enable
+    chmod 0644 /sys/class/sensors/stk3x1x-proximity/sensors_delay
+    chmod 0644 /sys/class/sensors/stk3x1x-proximity/sensors_calibrate
+    chmod 0644 /sys/class/sensors/stk3x1x-proximity/sensors_enable_wakeup
+    chmod 0644 /sys/class/sensors/stk3x1x-proximity/sensors_flush
+    chmod 0644 /sys/class/sensors/stk3x1x-proximity/sensors_name
+
+    chown system system /sys/class/sensors/stk3x1x-proximity/sensors_enable
+    chown system system /sys/class/sensors/stk3x1x-proximity/sensors_delay
+    chown system system /sys/class/sensors/stk3x1x-proximity/sensors_calibrate
+    chown system system /sys/class/sensors/stk3x1x-proximity/sensors_enable_wakeup
+    chown system system /sys/class/sensors/stk3x1x-proximity/sensors_flush
+    chown system system /sys/class/sensors/stk3x1x-proximity/sensors_name
+
+    # stk3x1x light sensor permissions
+    chmod 0644 /sys/class/sensors/stk3x1x-light/sensors_enable
+    chmod 0644 /sys/class/sensors/stk3x1x-light/sensors_delay
+    chmod 0644 /sys/class/sensors/stk3x1x-light/sensors_calibrate
+    chmod 0644 /sys/class/sensors/stk3x1x-light/sensors_enable_wakeup
+    chmod 0644 /sys/class/sensors/stk3x1x-light/sensors_flush
+    chmod 0644 /sys/class/sensors/stk3x1x-light/sensors_name
+
+    chown system system /sys/class/sensors/stk3x1x-light/sensors_enable
+    chown system system /sys/class/sensors/stk3x1x-light/sensors_delay
+    chown system system /sys/class/sensors/stk3x1x-light/sensors_calibrate
+    chown system system /sys/class/sensors/stk3x1x-light/sensors_enable_wakeup
+    chown system system /sys/class/sensors/stk3x1x-light/sensors_flush
+    chown system system /sys/class/sensors/stk3x1x-light/sensors_name
+
+    chown radio radio /sys/module/stk3x1x/parameters/call_status_flag
+
+# Fingerprint
+service vendor.goodix_script /vendor/bin/init.goodix.sh
+    class late_start
+    user system
+    group system
+    oneshot

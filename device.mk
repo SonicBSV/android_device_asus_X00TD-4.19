@@ -21,7 +21,7 @@ PRODUCT_COPY_FILES += \
 
 # Ramdisk
 PRODUCT_PACKAGES += \
-    init.device.rc \
+    init.asus.X00TD.rc \
     init.goodix.sh
 
 # Wifi
