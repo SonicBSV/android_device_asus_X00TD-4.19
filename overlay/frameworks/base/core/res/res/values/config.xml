@@ -26,7 +26,7 @@
     IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
 -->
 
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
 
     <!-- Vibrator pattern for feedback about a long screen/key press -->
     <integer-array name="config_longPressVibePattern">
@@ -48,4 +48,11 @@
     <integer-array name="config_keyboardTapVibePattern">
         <item>40</item>
     </integer-array>
+
+    <!-- Sustained performance mode не поддерживается -->
+    <bool name="config_sustainedPerformanceModeSupported">false</bool>
+
+    <!-- Скругления экрана -->
+    <bool name="config_supportsRoundedCornersOnWindows">true</bool>
+
 </resources>
